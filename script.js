@@ -82,16 +82,16 @@ const allQuestions = [
   { sound: 'event_33.mp3', answer: '0068 オペラより愛をこめて！' },
   { sound: 'event_34.mp3', answer: 'にぎにぎと ゆきゆきて' },
   { sound: 'event_35.mp3', answer: '-ive aLIVE!' },
-  { sound: 'event_36.mp3', answer: 'Say-Bing!' },
-  { sound: 'event_37.mp3', answer: 'Sheside Outside' },
-  { sound: 'event_38.mp3', answer: '月華夢騒' },
-  { sound: 'event_39.mp3', answer: '五塵来降' },
-  { sound: 'event_40.mp3', answer: 'Serenade Promenade' },
-  { sound: 'event_41.mp3', answer: '秘密のミッドナイトパーティー～オニの手は鐘と共に～' },
-  { sound: 'event_42.mp3', answer: 'Code: BOX ミレニアムに迫る影 ～一つの問いと二つの答え～' },
-  { sound: 'event_43.mp3', answer: 'パンデミック・ハザード ～奇跡の一枚～' },
-  { sound: 'event_44.mp3', answer: 'プレイボール！～目指せ！満塁ホームラン～' },
-  { sound: 'event_45.mp3', answer: 'ハイランダー鉄道爆走事件〜そして列車はなくなった〜' }
+  { sound: 'event_36.mp3': 'Say-Bing!' },
+  { sound: 'event_37.mp3': 'Sheside Outside' },
+  { sound: 'event_38.mp3': '月華夢騒' },
+  { sound: 'event_39.mp3': '五塵来降' },
+  { sound: 'event_40.mp3': 'Serenade Promenade' },
+  { sound: 'event_41.mp3': '秘密のミッドナイトパーティー～オニの手は鐘と共に～' },
+  { sound: 'event_42.mp3': 'Code: BOX ミレニアムに迫る影 ～一つの問いと二つの答え～' },
+  { sound: 'event_43.mp3': 'パンデミック・ハザード ～奇跡の一枚～' },
+  { sound: 'event_44.mp3': 'プレイボール！～目指せ！満塁ホームラン～' },
+  { sound: 'event_45.mp3': 'ハイランダー鉄道爆走事件〜そして列車はなくなった〜' }
 ];
 
 let currentQuestionIndex = 0;
@@ -189,7 +189,7 @@ function startGame() {
 function loadQuestion() {
   if (currentQuestionIndex < currentQuestions.length) {
     currentQuestion = currentQuestions[currentQuestionIndex];
-    audioPlayer.src = currentQuestion.sound;
+    audioPlayer.src = 'bgm/' + currentQuestion.sound; // パスを修正
     questionNumberDisplay.textContent = currentQuestionIndex + 1;
     totalQuestionsDisplay.textContent = currentQuestions.length;
     optionsArea.innerHTML = '';
@@ -210,3 +210,33 @@ function loadQuestion() {
       const optionButton = document.createElement('button');
       optionButton.textContent = optionText;
       optionButton.addEventListener('click', () => checkAnswer(optionText));
+      optionsArea.appendChild(optionButton);
+    });
+
+    // 指定された秒数後に回答可能にする
+    setTimeout(() => {
+      audioPlayer.play();
+      canAnswer = true;
+    }, 500); // 少し遅らせて再生
+
+    setTimeout(() => {
+      if (!canAnswer) {
+        resultArea.textContent = '時間切れ！';
+        nextButton.disabled = false;
+      }
+    }, (playDuration + 1) * 1000); // 再生時間 + 1秒後にタイムアウト判定
+
+  } else {
+    resultArea.textContent = `ゲーム終了！あなたのスコアは ${score} / ${currentQuestions.length} でした。`;
+    document.getElementById('questionArea').style.display = 'none';
+    document.getElementById('optionsArea').style.display = 'none';
+    nextButton.style.display = 'none';
+    // 必要に応じてリスタートボタンなどを追加
+  }
+}
+
+function checkAnswer(selectedAnswer) {
+  if (!canAnswer) return;
+
+  canAnswer = false;
+  audioPlayer.pause

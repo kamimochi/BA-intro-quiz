@@ -67,3 +67,23 @@ h1 {
     font-weight: bold;
     margin-top: 10px;
 }
+#questionNumberSelectArea {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#questionNumberSelectArea label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#questionNumberSelectArea input[type="number"] {
+    padding: 8px;
+    width: 80px;
+    text-align: center;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}

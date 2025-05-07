@@ -1,0 +1,127 @@
+const eventFileMap = {
+  'event_01.mp3': '桜花爛漫お祭り騒ぎ！~空に徒花 地に忍び~',
+  'event_02.mp3': '革命のイワン・クパーラ 髭とプリンとレッドウィンター',
+  'event_03.mp3': '夏空のウィッシュリスト',
+  'event_04.mp3': '~風紀委員会行政官緊急特務命令~ヒナ委員長のなつやすみっ！',
+  'event_05.mp3': 'ネバーランドでつかまえて',
+  'event_06.mp3': '船上のバニーチェイサー',
+  'event_07.mp3': '初音ミクのスペシャルライブ in キヴォトス～リハーサル編～(コラボ)',
+  'event_08.mp3': '227号温泉郷の運営記録！白い吐息は寄り添って',
+  'event_09.mp3': '第68番 新春狂想曲',
+  'event_10.mp3': 'シャーレのハッピー♡バレンタインパトロール　狐坂ワカモの沈黙と祝宴',
+  'event_11.mp3': 'どたばたシスターと古書館の魔術師',
+  'event_12.mp3': '不忍ノ心',
+  'event_13.mp3': 'アビドスリゾート復旧対策委員会',
+  'event_14.mp3': '出張！百夜堂 海の家FC計画',
+  'event_15.mp3': '放課後スイーツ物語 甘い秘密と銃撃戦',
+  'event_16.mp3': 'On Your Mark ＠ Millennium ~ キヴォトス大運動会 晄輪大祭',
+  'event_17.mp3': 'GetSet,GO！～キヴォトス晄輪大祭～',
+  'event_18.mp3': '聖堂のメリークリスマス〜救護騎士団の贈り物〜',
+  'event_19.mp3': '喰積の 前にいささか ～一番勝負～',
+  'event_20.mp3': 'F.SCT攻略戦',
+  'event_21.mp3': 'A-H.A占領戦',
+  'event_22.mp3': 'PHT決戦',
+  'event_23.mp3': 'D.U.シラトリ区 復旧作業',
+  'event_24.mp3': '白亜の予告状～虚飾の館と美学の在り処～',
+  'event_25.mp3': '龍武同舟 ～思い描くは、ひとつの未来～',
+  'event_26.mp3': '夏の特殊作戦！RABBIT小隊と消えたエビの謎',
+  'event_27.mp3': '隠されし遺産を求めて〜トリニティの課外活動〜',
+  'event_28.mp3': '学漫同人物語 ～2人が求める最終回～',
+  'event_29.mp3': 'Trip Trap Train',
+  'event_30.mp3': 'とある科学の青春記録(コラボ)',
+  'event_31.mp3': '(電脳)新春行進曲',
+  'event_32.mp3': '陽ひらく彼女たちの小夜曲',
+  'event_33.mp3': '0068 オペラより愛をこめて！',
+  'event_34.mp3': 'にぎにぎと ゆきゆきて',
+  'event_35.mp3': '-ive aLIVE!',
+  'event_36.mp3': 'Say-Bing!',
+  'event_37.mp3': 'Sheside Outside',
+  'event_38.mp3': '月華夢騒',
+  'event_39.mp3': '五塵来降',
+  'event_40.mp3': 'Serenade Promenade',
+  'event_41.mp3': '秘密のミッドナイトパーティー～オニの手は鐘と共に～',
+  'event_42.mp3': 'Code: BOX ミレニアムに迫る影 ～一つの問いと二つの答え～',
+  'event_43.mp3': 'パンデミック・ハザード ～奇跡の一枚～',
+  'event_44.mp3': 'プレイボール！～目指せ！満塁ホームラン～',
+  'event_45.mp3': 'ハイランダー鉄道爆走事件〜そして列車はなくなった〜'
+};
+
+const questions = [
+  { sound: 'event_01.mp3', answer: '桜花爛漫お祭り騒ぎ！~空に徒花 地に忍び~', difficulty: '易' },
+  { sound: 'event_02.mp3', answer: '革命のイワン・クパーラ 髭とプリンとレッドウィンター', difficulty: '中' },
+  { sound: 'event_03.mp3', answer: '夏空のウィッシュリスト', difficulty: '難' },
+  { sound: 'event_04.mp3', answer: '~風紀委員会行政官緊急特務命令~ヒナ委員長のなつやすみっ！', difficulty: '易' },
+  { sound: 'event_05.mp3', answer: 'ネバーランドでつかまえて', difficulty: '中' },
+  { sound: 'event_06.mp3', answer: '船上のバニーチェイサー', difficulty: '難' },
+  { sound: 'event_07.mp3', answer: '初音ミクのスペシャルライブ in キヴォトス～リハーサル編～(コラボ)', difficulty: '易' },
+  { sound: 'event_08.mp3', answer: '227号温泉郷の運営記録！白い吐息は寄り添って', difficulty: '中' },
+  { sound: 'event_09.mp3', answer: '第68番 新春狂想曲', difficulty: '難' },
+  { sound: 'event_10.mp3', answer: 'シャーレのハッピー♡バレンタインパトロール　狐坂ワカモの沈黙と祝宴', difficulty: '易' },
+  { sound: 'event_11.mp3', answer: 'どたばたシスターと古書館の魔術師', difficulty: '中' },
+  { sound: 'event_12.mp3', answer: '不忍ノ心', difficulty: '難' },
+  { sound: 'event_13.mp3', answer: 'アビドスリゾート復旧対策委員会', difficulty: '易' },
+  { sound: 'event_14.mp3', answer: '出張！百夜堂 海の家FC計画', difficulty: '中' },
+  { sound: 'event_15.mp3', answer: '放課後スイーツ物語 甘い秘密と銃撃戦', difficulty: '難' },
+  { sound: 'event_16.mp3', answer: 'On Your Mark ＠ Millennium ~ キヴォトス大運動会 晄輪大祭', difficulty: '易' },
+  { sound: 'event_17.mp3', answer: 'GetSet,GO！～キヴォトス晄輪大祭～', difficulty: '中' },
+  { sound: 'event_18.mp3', answer: '聖堂のメリークリスマス〜救護騎士団の贈り物〜', difficulty: '難' },
+  { sound: 'event_19.mp3', answer: '喰積の 前にいささか ～一番勝負～', difficulty: '易' },
+  { sound: 'event_20.mp3', answer: 'F.SCT攻略戦', difficulty: '中' },
+  { sound: 'event_21.mp3', answer: 'A-H.A占領戦', difficulty: '難' },
+  { sound: 'event_22.mp3', answer: 'PHT決戦', difficulty: '易' },
+  { sound: 'event_23.mp3', answer: 'D.U.シラトリ区 復旧作業', difficulty: '中' },
+  { sound: 'event_24.mp3', answer: '白亜の予告状～虚飾の館と美学の在り処～', difficulty: '難' },
+  { sound: 'event_25.mp3', answer: '龍武同舟 ～思い描くは、ひとつの未来～', difficulty: '易' },
+  { sound: 'event_26.mp3', answer: '夏の特殊作戦！RABBIT小隊と消えたエビの謎', difficulty: '中' },
+  { sound: 'event_27.mp3', answer: '隠されし遺産を求めて〜トリニティの課外活動〜', difficulty: '難' },
+  { sound: 'event_28.mp3', answer: '学漫同人物語 ～2人が求める最終回～', difficulty: '易' },
+  { sound: 'event_29.mp3', answer: 'Trip Trap Train', difficulty: '中' },
+  { sound: 'event_30.mp3', answer: 'とある科学の青春記録(コラボ)', difficulty: '難' },
+  { sound: 'event_31.mp3', answer: '(電脳)新春行進曲', difficulty: '易' },
+  { sound: 'event_32.mp3', answer: '陽ひらく彼女たちの小夜曲', difficulty: '中' },
+  { sound: 'event_33.mp3', answer: '0068 オペラより愛をこめて！', difficulty: '難' },
+  { sound: 'event_34.mp3', answer: 'にぎにぎと ゆきゆきて', difficulty: '易' },
+  { sound: 'event_35.mp3', answer: '-ive aLIVE!', difficulty: '中' },
+  { sound: 'event_36.mp3', answer: 'Say-Bing!', difficulty: '難' },
+  { sound: 'event_37.mp3', answer: 'Sheside Outside', difficulty: '易' },
+  { sound: 'event_38.mp3', answer: '月華夢騒', difficulty: '中' },
+  { sound: 'event_39.mp3', answer: '五塵来降', difficulty: '難' },
+  { sound: 'event_40.mp3', answer: 'Serenade Promenade', difficulty: '易' },
+  { sound: 'event_41.mp3', answer: '秘密のミッドナイトパーティー～オニの手は鐘と共に～', difficulty: '中' },
+  { sound: 'event_42.mp3', answer: 'Code: BOX ミレニアムに迫る影 ～一つの問いと二つの答え～', difficulty: '難' },
+  { sound: 'event_43.mp3', answer: 'パンデミック・ハザード ～奇跡の一枚～', difficulty: '易' },
+  { sound: 'event_44.mp3', answer: 'プレイボール！～目指せ！満塁ホームラン～', difficulty: '中' },
+  { sound: 'event_45.mp3', answer: 'ハイランダー鉄道爆走事件〜そして列車はなくなった〜', difficulty: '難' }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+const audioPlayer = document.getElementById('audioPlayer');
+const questionNumberDisplay = document.getElementById('questionNumber');
+const totalQuestionsDisplay = document.getElementById('totalQuestions');
+const optionsArea = document.getElementById('optionsArea');
+const nextButton = document.getElementById('nextButton');
+const resultArea = document.getElementById('resultArea');
+let currentQuestion;
+let canAnswer = false; // 回答できる状態かどうか
+
+function loadQuestion() {
+  if (currentQuestionIndex < questions.length) {
+    currentQuestion = questions[currentQuestionIndex];
+    audioPlayer.src = currentQuestion.sound;
+    questionNumberDisplay.textContent = currentQuestionIndex + 1;
+    totalQuestionsDisplay.textContent = questions.length;
+    optionsArea.innerHTML = ''; // 選択肢をクリア
+    resultArea.textContent = '';
+    nextButton.disabled = true;
+    canAnswer = false;
+
+    // 難易度によって再生時間を設定
+    let playDuration = 0;
+    switch (currentQuestion.difficulty) {
+      case '易':
+        playDuration = 5;
+        break;
+      case '中':
+        playDuration = 3;
+        break;

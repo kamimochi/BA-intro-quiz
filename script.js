@@ -211,21 +211,17 @@ function loadQuestion() {
     if (currentQuestion && currentQuestion.mainSound) {
       audioPlayer.src = 'bgm/' + currentQuestion.mainSound;
       audioPlayer.play();
+      canAnswer = true; // 問題再生直後に回答可能にする
     }
 
-    // 指定された秒数後に回答可能にする
-    setTimeout(() => {
-      canAnswer = true;
-    }, playDuration * 1000);
-
-    // タイムアウト処理
+    // タイムアウト処理 (問題再生時間 + わずかな猶予)
     setTimeout(() => {
       if (!canAnswer) {
         resultArea.textContent = '時間切れ！';
         nextButton.disabled = false;
         hintButton.disabled = true;
       }
-    }, (playDuration + 1) * 1000);
+    }, (playDuration + 0.1) * 1000); // わずかな猶予 (0.1秒)
 
   } else {
     resultArea.textContent = `ゲーム終了！あなたのスコアは ${score} / ${numberOfQuestions} でした。`; // スコア表示を変更

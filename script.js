@@ -144,7 +144,8 @@ let canAnswer = false;
 let playDuration = 1; // 問題の再生時間 (1秒)
 let hintDuration = 2; // ヒントの再生時間 (2秒)
 let numberOfQuestions = 10;
-let hintPlayed = false;
+let hintPlayed = false; // 最初のヒント再生判定フラグ
+let answered = false; // 回答済みフラグ
 
 const audioPlayer = document.getElementById('audioPlayer');
 const questionNumberDisplay = document.getElementById('questionNumber');
@@ -185,6 +186,9 @@ startButton.addEventListener('click', () => {
 });
 
 function loadQuestion() {
+  answered = false; // 新しい問題で未回答状態に戻す
+  hintPlayed = false; // 新しい問題でヒント未再生状態に戻す
+  hintButton.disabled = false; // 新しい問題でヒントボタンを有効にする
   if (currentQuestionIndex < currentQuestions.length) {
     currentQuestion = currentQuestions[currentQuestionIndex];
     questionNumberDisplay.textContent = currentQuestionIndex + 1;
@@ -193,7 +197,6 @@ function loadQuestion() {
     resultArea.textContent = '';
     nextButton.disabled = true;
     canAnswer = false;
-    hintPlayed = false;
 
     // 正解を含む選択肢をランダムに作成
     const correctOption = currentQuestion.answer;
@@ -221,14 +224,15 @@ function loadQuestion() {
     audioPlayer.play();
     canAnswer = true; // 問題再生直後に回答可能にする
 
-    // タイムアウト処理 (問題再生時間 + わずかな猶予)
+    // タイムアウト処理 (問題再生時間 + 猶予)
     setTimeout(() => {
-      if (!canAnswer) {
-        resultArea.textContent = '時間切れ！';
+      if (!canAnswer && !answered) { // 回答済みでない場合のみタイムアウト処理
+        resultArea.textContent = `時間切れ！正解は「${fullToShortOptions[currentQuestion.answer] || currentQuestion.answer}」です。`;
         nextButton.disabled = false;
         hintButton.disabled = true;
+        answered = true; // タイムアウトも回答とみなす
       }
-    }, (playDuration + 0.1) * 1000); // わずかな猶予 (0.1秒)
+    }, (playDuration + 5) * 1000); // 猶予を少し長めに設定
 
   } else {
     resultArea.textContent = `ゲーム終了！あなたのスコアは ${score} / ${numberOfQuestions} でした。`;
@@ -241,18 +245,19 @@ function loadQuestion() {
 }
 
 function playHint() {
-  if (!hintPlayed && currentQuestion && currentQuestion.hintSound) {
+  if (currentQuestion && currentQuestion.hintSound) {
     audioPlayer.src = 'bgm/' + currentQuestion.hintSound;
     audioPlayer.play();
-    hintPlayed = true;
-    hintButton.disabled = true; // 一度ヒントを再生したらボタンを無効化
+    hintPlayed = true; // 最初のヒント再生を記録 (現在は未使用ですが念のため)
+    hintButton.disabled = false; // ヒントは何度でも再生可能なので、無効化しない
   }
 }
 
 function checkAnswer(selectedAnswer) {
-  if (!canAnswer) return;
+  if (!canAnswer || answered) return; // 回答済みなら何もしない
 
   canAnswer = false;
+  answered = true;
   audioPlayer.pause();
   if (currentQuestion && currentQuestion.answer) {
     const correctAnswer = currentQuestion.answer;
@@ -260,7 +265,7 @@ function checkAnswer(selectedAnswer) {
       resultArea.textContent = '正解！';
       score++;
     } else {
-      resultArea.textContent = `不正解... 正解は「${fullToShortOptions[correctAnswer] || correctAnswer}」です。`; // 不正解時も略称を使用
+      resultArea.textContent = `不正解... 正解は「${fullToShortOptions[correctAnswer] || correctAnswer}」です。`;
     }
   }
   nextButton.disabled = false;

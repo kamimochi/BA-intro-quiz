@@ -50,14 +50,14 @@ const allQuestions = [
   { sound: 'event_01.mp3', answer: '桜花爛漫お祭り騒ぎ！~空に徒花 地に忍び~' },
   { sound: 'event_02.mp3', answer: '革命のイワン・クパーラ 髭とプリンとレッドウィンター' },
   { sound: 'event_03.mp3', answer: '夏空のウィッシュリスト' },
-  { sound: 'event_04.mp3', answer: '~風紀委員会行政官緊急特務命令~ヒナ委員長のなつやすみっ！' },
-  { sound: 'event_05.mp3', answer: 'ネバーランドでつかまえて' },
-  { sound: 'event_06.mp3', answer: '船上のバニーチェイサー' },
-  { sound: 'event_07.mp3', answer: '初音ミクのスペシャルライブ in キヴォトス～リハーサル編～(コラボ)' },
-  { sound: 'event_08.mp3', answer: '227号温泉郷の運営記録！白い吐息は寄り添って' },
-  { sound: 'event_09.mp3', answer: '第68番 新春狂想曲' },
-  { sound: 'event_10.mp3', answer: 'シャーレのハッピー♡バレンタインパトロール　狐坂ワカモの沈黙と祝宴' },
-  { sound: 'event_11.mp3', answer: 'どたばたシスターと古書館の魔術師' },
+  { sound: 'event_04.mp3': '~風紀委員会行政官緊急特務命令~ヒナ委員長のなつやすみっ！' },
+  { sound: 'event_05.mp3': 'ネバーランドでつかまえて' },
+  { sound: 'event_06.mp3': '船上のバニーチェイサー' },
+  { sound: 'event_07.mp3': '初音ミクのスペシャルライブ in キヴォトス～リハーサル編～(コラボ)' },
+  { sound: 'event_08.mp3': '227号温泉郷の運営記録！白い吐息は寄り添って' },
+  { sound: 'event_09.mp3': '第68番 新春狂想曲' },
+  { sound: 'event_10.mp3': 'シャーレのハッピー♡バレンタインパトロール　狐坂ワカモの沈黙と祝宴' },
+  { sound: 'event_11.mp3': 'どたばたシスターと古書館の魔術師' },
   { sound: 'event_12.mp3': '不忍ノ心' },
   { sound: 'event_13.mp3': 'アビドスリゾート復旧対策委員会' },
   { sound: 'event_14.mp3': '出張！百夜堂 海の家FC計画' },
@@ -96,11 +96,11 @@ const allQuestions = [
 
 let currentQuestionIndex = 0;
 let score = 0;
-let currentQuestions = []; // 現在プレイする問題の配列
+let currentQuestions = [];
 let currentQuestion;
 let canAnswer = false;
-let playDuration = 5; // デフォルトの再生時間（イージー）
-let numberOfQuestions = 10; // デフォルトの問題数
+let playDuration = 5;
+let numberOfQuestions = 10;
 
 const audioPlayer = document.getElementById('audioPlayer');
 const questionNumberDisplay = document.getElementById('questionNumber');
@@ -108,117 +108,15 @@ const totalQuestionsDisplay = document.getElementById('totalQuestions');
 const optionsArea = document.getElementById('optionsArea');
 const nextButton = document.getElementById('nextButton');
 const resultArea = document.getElementById('resultArea');
-const difficultySelectArea = document.createElement('div'); // 難易度選択エリア
-const questionNumberSelectArea = document.getElementById('questionNumberSelectArea'); // 問題数選択エリア
-const startButton = document.createElement('button'); // スタートボタン
+const difficultySelectArea = document.getElementById('difficultySelectArea');
+const questionNumberSelectArea = document.getElementById('questionNumberSelectArea');
+const startButton = document.getElementById('startButton');
 
-// 難易度選択ボタンを作成
-const easyButton = createDifficultyButton('イージー', 5);
-const normalButton = createDifficultyButton('ノーマル', 3);
-const hardButton = createDifficultyButton('ハード', 1);
-
-// 難易度選択エリアに追加
-difficultySelectArea.appendChild(easyButton);
-difficultySelectArea.appendChild(normalButton);
-difficultySelectArea.appendChild(hardButton);
-
-// スタートボタンを作成
-startButton.textContent = 'スタート';
-startButton.addEventListener('click', startGame);
-startButton.style.padding = '10px 20px';
-startButton.style.fontSize = '1.2em';
-startButton.style.cursor = 'pointer';
-startButton.style.backgroundColor = '#007bff';
-startButton.style.color = '#fff';
-startButton.style.border = 'none';
-startButton.style.borderRadius = '5px';
-startButton.style.marginTop = '20px';
-
-// 難易度選択エリアと問題数選択エリアとスタートボタンをbodyに追加
-document.body.insertBefore(difficultySelectArea, document.getElementById('questionArea'));
-document.body.insertBefore(questionNumberSelectArea, document.getElementById('questionArea'));
-document.body.insertBefore(startButton, document.getElementById('questionArea'));
-document.getElementById('questionArea').style.display = 'none';
-document.getElementById('optionsArea').style.display = 'none';
-document.getElementById('nextButton').style.display = 'none'; // ← ここで初期表示を none に設定
-document.getElementById('resultArea').style.display = 'none';
-
-function createDifficultyButton(text, duration) {
-  const button = document.createElement('button');
-  button.textContent = text;
-  button.style.padding = '10px 15px';
-  button.style.fontSize = '1em';
-  button.style.marginRight = '10px';
-  button.style.cursor = 'pointer';
-  button.style.backgroundColor = '#f8f9fa';
-  button.style.color = '#343a40';
-  button.style.border = '1px solid #ced4da';
-  button.style.borderRadius = '5px';
-  button.addEventListener('click', () => selectDifficulty(duration));
-  return button;
-}
-
-function selectDifficulty(duration) {
-  playDuration = duration;
-  difficultySelectArea.style.display = 'none';
-  questionNumberSelectArea.style.display = 'block';
-  startButton.style.display = 'block';
-}
-
-function startGame() {
-  const selectedQuestionNumber = parseInt(document.getElementById('questionNumberSelect').value);
-  if (isNaN(selectedQuestionNumber) || selectedQuestionNumber < 5 || selectedQuestionNumber > 45) {
-    alert('問題数は5から45の間で入力してください。');
-    return;
-  }
-  numberOfQuestions = selectedQuestionNumber;
-
-  startButton.style.display = 'none';
-  questionNumberSelectArea.style.display = 'none';
-  currentQuestionIndex = 0;
-  score = 0;
-  const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
-  currentQuestions = shuffledQuestions.slice(0, numberOfQuestions);
-  document.getElementById('questionArea').style.display = 'block';
-  document.getElementById('optionsArea').style.display = 'grid';
-  document.getElementById('nextButton').style.display = 'block'; // ← ここでゲーム開始時に表示
-  document.getElementById('resultArea').textContent = '';
-  loadQuestion();
-}
-
-function loadQuestion() {
-  if (currentQuestionIndex < currentQuestions.length) {
-    currentQuestion = currentQuestions[currentQuestionIndex];
-    audioPlayer.src = 'bgm/' + currentQuestion.sound; // パスを修正
-    questionNumberDisplay.textContent = currentQuestionIndex + 1;
-    totalQuestionsDisplay.textContent = currentQuestions.length;
-    optionsArea.innerHTML = '';
-    resultArea.textContent = '';
-    nextButton.disabled = true;
-    canAnswer = false;
-
-    // 正解を含む選択肢をランダムに作成
-    const correctOption = currentQuestion.answer;
-    const otherOptions = allQuestions
-      .filter(q => q.answer !== correctOption)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3)
-      .map(q => q.answer);
-    const options = [...otherOptions, correctOption].sort(() => Math.random() - 0.5);
-
-    options.forEach(optionText => {
-      const optionButton = document.createElement('button');
-      optionButton.textContent = optionText;
-      optionButton.addEventListener('click', () => checkAnswer(optionText));
-      optionsArea.appendChild(optionButton);
-    });
-
-    // 指定された秒数後に回答可能にする
-    setTimeout(() => {
-      audioPlayer.play();
-      canAnswer = true;
-    }, 500); // 少し遅らせて再生
-
-    setTimeout(() => {
-      if (!canAnswer) {
-        resultArea.textContent = '時間切れ
+// 難易度選択
+difficultySelectArea.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', () => {
+        switch (button.id) {
+            case 'easyButton':
+                playDuration = 5;
+                break;
+            case 'normalButton

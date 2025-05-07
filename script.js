@@ -119,4 +119,108 @@ difficultySelectArea.querySelectorAll('button').forEach(button => {
             case 'easyButton':
                 playDuration = 5;
                 break;
-            case 'normalButton
+            case 'normalButton':
+                playDuration = 3;
+                break;
+            case 'hardButton':
+                playDuration = 1;
+                break;
+        }
+        difficultySelectArea.style.display = 'none';
+        questionNumberSelectArea.style.display = 'flex';
+        startButton.style.display = 'block';
+    });
+});
+
+// スタートボタン
+startButton.addEventListener('click', () => {
+    const selectedQuestionNumber = parseInt(questionNumberSelectArea.querySelector('input').value);
+    if (isNaN(selectedQuestionNumber) || selectedQuestionNumber < 5 || selectedQuestionNumber > 45) {
+        alert('問題数は5から45の間で入力してください。');
+        return;
+    }
+    numberOfQuestions = selectedQuestionNumber;
+
+    startButton.style.display = 'none';
+    questionNumberSelectArea.style.display = 'none';
+    currentQuestionIndex = 0;
+    score = 0;
+    const shuffledQuestions = [...allQuestions].sort(() => Math.random() - 0.5);
+    currentQuestions = shuffledQuestions.slice(0, numberOfQuestions);
+    document.getElementById('questionArea').style.display = 'block';
+    document.getElementById('optionsArea').style.display = 'grid';
+    nextButton.style.display = 'block';
+    resultArea.textContent = '';
+    loadQuestion();
+});
+
+function loadQuestion() {
+    if (currentQuestionIndex < currentQuestions.length) {
+        currentQuestion = currentQuestions[currentQuestionIndex];
+        audioPlayer.src = 'bgm/' + currentQuestion.sound;
+        questionNumberDisplay.textContent = currentQuestionIndex + 1;
+        totalQuestionsDisplay.textContent = currentQuestions.length;
+        optionsArea.innerHTML = '';
+        resultArea.textContent = '';
+        nextButton.disabled = true;
+        canAnswer = false;
+
+        // 正解を含む選択肢をランダムに作成
+        const correctOption = currentQuestion.answer;
+        const otherOptions = allQuestions
+            .filter(q => q.answer !== correctOption)
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 3)
+            .map(q => q.answer);
+        const options = [...otherOptions, correctOption].sort(() => Math.random() - 0.5);
+
+        options.forEach(optionText => {
+            const optionButton = document.createElement('button');
+            optionButton.textContent = optionText;
+            optionButton.addEventListener('click', () => checkAnswer(optionText));
+            optionsArea.appendChild(optionButton);
+        });
+
+        // 指定された秒数後に回答可能にする
+        setTimeout(() => {
+            audioPlayer.play();
+            canAnswer = true;
+        }, 500);
+
+        // タイムアウト処理
+        setTimeout(() => {
+            if (!canAnswer) {
+                resultArea.textContent = '時間切れ！';
+                nextButton.disabled = false;
+            }
+        }, (playDuration + 1) * 1000);
+
+    } else {
+        resultArea.textContent = `ゲーム終了！あなたのスコアは ${score} / ${currentQuestions.length} でした。`;
+        document.getElementById('questionArea').style.display = 'none';
+        document.getElementById('optionsArea').style.display = 'none';
+        nextButton.style.display = 'none';
+        // 必要に応じてリスタートボタンなどを追加
+    }
+}
+
+function checkAnswer(selectedAnswer) {
+    if (!canAnswer) return;
+
+    canAnswer = false;
+    audioPlayer.pause();
+    const correctAnswer = currentQuestion.answer;
+
+    if (selectedAnswer === correctAnswer) {
+        resultArea.textContent = '正解！';
+        score++;
+    } else {
+        resultArea.textContent = `不正解... 正解は「${correctAnswer}」です。`;
+    }
+    nextButton.disabled = false;
+}
+
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++;
+    loadQuestion();
+});

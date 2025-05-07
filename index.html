@@ -1,49 +1,32 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ブルーアーカイブ イベントBGM イントロクイズ</title>
-    <link rel="stylesheet" href="style.css">
+  <title>BlueArchive BGM Quiz</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>ブルーアーカイブ イベントBGM イントロクイズ</h1>
-
-    <div id="difficultySelectArea">
-        <button id="easyButton">イージー</button>
-        <button id="normalButton">ノーマル</button>
-        <button id="hardButton">ハード</button>
-    </div>
-
-    <div id="questionNumberSelectArea">
-        <label for="questionNumberSelect">問題数を選択してください (5 - 45):</label>
-        <input type="number" id="questionNumberSelect" min="5" max="45" value="10">
-    </div>
-
+  <audio id="audioPlayer" controls style="width: 100%;"></audio>
+  <div id="questionArea" style="display: none;">
+    <p>問題 <span id="questionNumber"></span> / <span id="totalQuestions"></span></p>
+  </div>
+  <div id="optionsArea" style="display: none;"></div>
+  <button id="nextButton" style="display: none;">次の問題</button>
+  <div id="resultArea"></div>
+  <div id="difficultySelectArea">
+    <label for="difficulty">難易度を選択:</label>
+    <select id="difficulty">
+      <option value="easy">イージー</option>
+      <option value="normal">ノーマル</option>
+      <option value="hard">ハード</option>
+    </select>
+    <button id="startQuiz">スタート</button>
+  </div>
+  <div id="questionNumberSelectArea" style="display: none; flex-direction: column; align-items: center;">
+    <label for="questionNumberInput">問題数 (5～45):</label>
+    <input type="number" id="questionNumberInput" min="5" max="45" value="10">
     <button id="startButton">スタート</button>
-
-    <div id="cautionArea" style="text-align: center; margin-top: 10px; color: red;">
-        <p>F.SCT攻略戦 と A-H.A占領戦 はBGMが同一です。</p>
-    </div>
-
-    <audio id="audioPlayer" controls preload="auto" style="width: 100%; max-width: 400px;"></audio>
-
-    <div id="questionArea">
-        <p>問題 <span id="questionNumber"></span> / <span id="totalQuestions"></span></p>
-    </div>
-    
-
-    <div id="questionArea">
-        <p>問題 <span id="questionNumber"></span> / <span id="totalQuestions"></span></p>
-    </div>
-
-    <div id="optionsArea">
-        </div>
-
-    <button id="nextButton" disabled>次の問題</button>
-
-    <div id="resultArea"></div>
-
-    <script src="script.js"></script>
+  </div>
+  <script src="optionsData.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

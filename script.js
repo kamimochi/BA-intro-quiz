@@ -58,30 +58,30 @@ const allQuestions = [
   { sound: 'event_09.mp3', answer: '第68番 新春狂想曲' },
   { sound: 'event_10.mp3', answer: 'シャーレのハッピー♡バレンタインパトロール　狐坂ワカモの沈黙と祝宴' },
   { sound: 'event_11.mp3', answer: 'どたばたシスターと古書館の魔術師' },
-  { sound: 'event_12.mp3', answer: '不忍ノ心' },
-  { sound: 'event_13.mp3', answer: 'アビドスリゾート復旧対策委員会' },
-  { sound: 'event_14.mp3', answer: '出張！百夜堂 海の家FC計画' },
-  { sound: 'event_15.mp3', answer: '放課後スイーツ物語 甘い秘密と銃撃戦' },
-  { sound: 'event_16.mp3', answer: 'On Your Mark ＠ Millennium ~ キヴォトス大運動会 晄輪大祭' },
-  { sound: 'event_17.mp3', answer: 'GetSet,GO！～キヴォトス晄輪大祭～' },
-  { sound: 'event_18.mp3', answer: '聖堂のメリークリスマス〜救護騎士団の贈り物〜' },
-  { sound: 'event_19.mp3', answer: '喰積の 前にいささか ～一番勝負～' },
-  { sound: 'event_20.mp3', answer: 'F.SCT攻略戦' },
-  { sound: 'event_21.mp3', answer: 'A-H.A占領戦' },
-  { sound: 'event_22.mp3', answer: 'PHT決戦' },
-  { sound: 'event_23.mp3', answer: 'D.U.シラトリ区 復旧作業' },
-  { sound: 'event_24.mp3', answer: '白亜の予告状～虚飾の館と美学の在り処～' },
-  { sound: 'event_25.mp3', answer: '龍武同舟 ～思い描くは、ひとつの未来～' },
-  { sound: 'event_26.mp3', answer: '夏の特殊作戦！RABBIT小隊と消えたエビの謎' },
-  { sound: 'event_27.mp3', answer: '隠されし遺産を求めて〜トリニティの課外活動〜' },
-  { sound: 'event_28.mp3', answer: '学漫同人物語 ～2人が求める最終回～' },
-  { sound: 'event_29.mp3', answer: 'Trip Trap Train' },
-  { sound: 'event_30.mp3', answer: 'とある科学の青春記録(コラボ)' },
-  { sound: 'event_31.mp3', answer: '(電脳)新春行進曲' },
-  { sound: 'event_32.mp3', answer: '陽ひらく彼女たちの小夜曲' },
-  { sound: 'event_33.mp3', answer: '0068 オペラより愛をこめて！' },
-  { sound: 'event_34.mp3', answer: 'にぎにぎと ゆきゆきて' },
-  { sound: 'event_35.mp3', answer: '-ive aLIVE!' },
+  { sound: 'event_12.mp3': '不忍ノ心' },
+  { sound: 'event_13.mp3': 'アビドスリゾート復旧対策委員会' },
+  { sound: 'event_14.mp3': '出張！百夜堂 海の家FC計画' },
+  { sound: 'event_15.mp3': '放課後スイーツ物語 甘い秘密と銃撃戦' },
+  { sound: 'event_16.mp3': 'On Your Mark ＠ Millennium ~ キヴォトス大運動会 晄輪大祭' },
+  { sound: 'event_17.mp3': 'GetSet,GO！～キヴォトス晄輪大祭～' },
+  { sound: 'event_18.mp3': '聖堂のメリークリスマス〜救護騎士団の贈り物〜' },
+  { sound: 'event_19.mp3': '喰積の 前にいささか ～一番勝負～' },
+  { sound: 'event_20.mp3': 'F.SCT攻略戦' },
+  { sound: 'event_21.mp3': 'A-H.A占領戦' },
+  { sound: 'event_22.mp3': 'PHT決戦' },
+  { sound: 'event_23.mp3': 'D.U.シラトリ区 復旧作業' },
+  { sound: 'event_24.mp3': '白亜の予告状～虚飾の館と美学の在り処～' },
+  { sound: 'event_25.mp3': '龍武同舟 ～思い描くは、ひとつの未来～' },
+  { sound: 'event_26.mp3': '夏の特殊作戦！RABBIT小隊と消えたエビの謎' },
+  { sound: 'event_27.mp3': '隠されし遺産を求めて〜トリニティの課外活動〜' },
+  { sound: 'event_28.mp3': '学漫同人物語 ～2人が求める最終回～' },
+  { sound: 'event_29.mp3': 'Trip Trap Train' },
+  { sound: 'event_30.mp3': 'とある科学の青春記録(コラボ)' },
+  { sound: 'event_31.mp3': '(電脳)新春行進曲' },
+  { sound: 'event_32.mp3': '陽ひらく彼女たちの小夜曲' },
+  { sound: 'event_33.mp3': '0068 オペラより愛をこめて！' },
+  { sound: 'event_34.mp3': 'にぎにぎと ゆきゆきて' },
+  { sound: 'event_35.mp3': '-ive aLIVE!' },
   { sound: 'event_36.mp3': 'Say-Bing!' },
   { sound: 'event_37.mp3': 'Sheside Outside' },
   { sound: 'event_38.mp3': '月華夢騒' },
@@ -140,7 +140,7 @@ document.body.insertBefore(questionNumberSelectArea, document.getElementById('qu
 document.body.insertBefore(startButton, document.getElementById('questionArea'));
 document.getElementById('questionArea').style.display = 'none';
 document.getElementById('optionsArea').style.display = 'none';
-document.getElementById('nextButton').style.display = 'none';
+document.getElementById('nextButton').style.display = 'none'; // ← ここで初期表示を none に設定
 document.getElementById('resultArea').style.display = 'none';
 
 function createDifficultyButton(text, duration) {
@@ -181,7 +181,7 @@ function startGame() {
   currentQuestions = shuffledQuestions.slice(0, numberOfQuestions);
   document.getElementById('questionArea').style.display = 'block';
   document.getElementById('optionsArea').style.display = 'grid';
-  document.getElementById('nextButton').style.display = 'block';
+  document.getElementById('nextButton').style.display = 'block'; // ← ここでゲーム開始時に表示
   document.getElementById('resultArea').textContent = '';
   loadQuestion();
 }
@@ -221,22 +221,4 @@ function loadQuestion() {
 
     setTimeout(() => {
       if (!canAnswer) {
-        resultArea.textContent = '時間切れ！';
-        nextButton.disabled = false;
-      }
-    }, (playDuration + 1) * 1000); // 再生時間 + 1秒後にタイムアウト判定
-
-  } else {
-    resultArea.textContent = `ゲーム終了！あなたのスコアは ${score} / ${currentQuestions.length} でした。`;
-    document.getElementById('questionArea').style.display = 'none';
-    document.getElementById('optionsArea').style.display = 'none';
-    nextButton.style.display = 'none';
-    // 必要に応じてリスタートボタンなどを追加
-  }
-}
-
-function checkAnswer(selectedAnswer) {
-  if (!canAnswer) return;
-
-  canAnswer = false;
-  audioPlayer.pause
+        resultArea.textContent = '時間切れ

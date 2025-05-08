@@ -171,21 +171,6 @@ startButton.addEventListener('click', () => {
     alert('問題数は5から45の間で入力してください。');
     return;
   }
-  // 修正箇所：nextButtonのイベントリスナーを設定
-nextButton.addEventListener('click', () => {
-  if (!answered) {
-    // 回答処理
-    if (selectedOption) {
-      checkAnswer(selectedOption);
-    } else {
-      alert("回答を選択してください。");
-    }
-  } else {
-    // 次の問題に進む処理
-    currentQuestionIndex++;
-    loadQuestion();
-  }
-});
   numberOfQuestions = selectedQuestionNumber;
 
   startButton.style.display = 'none';
@@ -200,6 +185,22 @@ nextButton.addEventListener('click', () => {
   nextButton.style.display = 'block';
   resultArea.textContent = '';
   loadQuestion();
+});
+
+// nextButton のイベントリスナー（グローバルスコープに移動）
+nextButton.addEventListener('click', () => {
+  if (!answered) {
+    // 回答処理
+    if (selectedOption) {
+      checkAnswer(selectedOption);
+    } else {
+      alert("回答を選択してください。");
+    }
+  } else {
+    // 次の問題に進む処理
+    currentQuestionIndex++;
+    loadQuestion();
+  }
 });
 
 function loadQuestion() {
@@ -232,7 +233,6 @@ function loadQuestion() {
       optionButton.addEventListener('click', () => {
         if (!answered && canAnswer) {
           selectedOption = optionText; // 選択された回答を保存
-          checkAnswer(optionText);
         }
       });
       optionsArea.appendChild(optionButton);
@@ -279,3 +279,22 @@ function playHint() {
   }
 }
 
+function checkAnswer(selectedAnswer) {
+  if (!canAnswer || answered) return; // 回答済みなら何もしない
+
+  canAnswer = false;
+  answered = true;
+  audioPlayer.pause();
+  if (currentQuestion && currentQuestion.answer) {
+    const correctAnswer = currentQuestion.answer;
+    if (selectedAnswer === correctAnswer) {
+      resultArea.textContent = '正解！'; // 正解の場合の表示
+      score++;
+    } else {
+      resultArea.textContent = `不正解... 正解は「${fullToShortOptions[correctAnswer] || correctAnswer}」です。`; // 不正解の場合の表示
+    }
+    nextButton.textContent = '次の問題'; // 回答後にボタンのテキストを変更
+    nextButton.disabled = false;
+    hintButton.disabled = true; // 回答後はヒントボタンを無効化
+  }
+}

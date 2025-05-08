@@ -273,13 +273,13 @@ function checkAnswer(selectedAnswer) {
   if (currentQuestion && currentQuestion.answer) {
     const correctAnswer = currentQuestion.answer;
     if (selectedAnswer === correctAnswer) {
-      resultArea.textContent = '正解！';
+      resultArea.textContent = '正解！'; // 正解の場合の表示
       score++;
     } else {
-      resultArea.textContent = `不正解... 正解は「${fullToShortOptions[correctAnswer] || correctAnswer}」です。`;
+      resultArea.textContent = `不正解... 正解は「${fullToShortOptions[correctAnswer] || correctAnswer}」です。`; // 不正解の場合の表示
     }
-    // ここではボタンのテキストはまだ変更しない
-    nextButton.disabled = false; // 回答後、次の問題へ進めるようにボタンを有効化
+    nextButton.textContent = '次の問題'; // 回答後にボタンのテキストを変更
+    nextButton.disabled = false;
     hintButton.disabled = true; // 回答後はヒントボタンを無効化
   }
 }

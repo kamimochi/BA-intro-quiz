@@ -146,6 +146,7 @@ let hintDuration = 2; // ヒントの再生時間 (2秒)
 let numberOfQuestions = 10;
 let hintPlayed = false;
 let answered = false; // 回答済みフラグ
+let selectedOption = null; // 選択された回答を一時的に保存
 
 const audioPlayer = document.getElementById('audioPlayer');
 const questionNumberDisplay = document.getElementById('questionNumber');
@@ -192,6 +193,7 @@ function loadQuestion() {
   hintButton.disabled = false; // 新しい問題でヒントボタンを有効にする
   nextButton.textContent = '回答'; // 問題読み込み時も「回答」にする
   nextButton.disabled = true; // 回答前はボタンを無効にする
+  selectedOption = null; // 選択された回答をリセット
   if (currentQuestionIndex < currentQuestions.length) {
     currentQuestion = currentQuestions[currentQuestionIndex];
     questionNumberDisplay.textContent = currentQuestionIndex + 1;
@@ -214,6 +216,7 @@ function loadQuestion() {
       optionButton.textContent = fullToShortOptions[optionText] || optionText; // 略称を使用
       optionButton.addEventListener('click', () => {
         if (!answered && canAnswer) {
+          selectedOption = optionText; // 選択された回答を保存
           checkAnswer(optionText);
         }
       });
@@ -275,14 +278,15 @@ function checkAnswer(selectedAnswer) {
     } else {
       resultArea.textContent = `不正解... 正解は「${fullToShortOptions[correctAnswer] || correctAnswer}」です。`;
     }
-    nextButton.textContent = '次の問題'; // 回答後にボタンのテキストを変更
-    nextButton.disabled = false;
+    // ここではボタンのテキストはまだ変更しない
+    nextButton.disabled = false; // 回答後、次の問題へ進めるようにボタンを有効化
     hintButton.disabled = true; // 回答後はヒントボタンを無効化
   }
 }
 
 nextButton.addEventListener('click', () => {
   if (answered || currentQuestionIndex === currentQuestions.length) {
+    nextButton.textContent = '次の問題'; // 次の問題へ進む際にテキストを変更
     currentQuestionIndex++;
     loadQuestion();
   }

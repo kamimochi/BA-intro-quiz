@@ -147,6 +147,7 @@ let numberOfQuestions = 10;
 let hintPlayed = false;
 let answered = false; // 回答済みフラグ
 let selectedOption = null; // 選択された回答を一時的に保存
+let selectedOptionButton = null; // 選択されたボタン要素を保持
 
 const audioPlayer = document.getElementById('audioPlayer');
 const questionNumberDisplay = document.getElementById('questionNumber');
@@ -210,6 +211,7 @@ function loadQuestion() {
   nextButton.textContent = '回答'; // 問題読み込み時も「回答」にする
   nextButton.disabled = true; // 回答前はボタンを無効にする
   selectedOption = null; // 選択された回答をリセット
+  selectedOptionButton = null; // 選択されたボタン要素をリセット
   if (currentQuestionIndex < currentQuestions.length) {
     currentQuestion = currentQuestions[currentQuestionIndex];
     questionNumberDisplay.textContent = currentQuestionIndex + 1;
@@ -232,7 +234,12 @@ function loadQuestion() {
       optionButton.textContent = fullToShortOptions[optionText] || optionText; // 略称を使用
       optionButton.addEventListener('click', () => {
         if (!answered && canAnswer) {
+          if (selectedOptionButton) {
+            selectedOptionButton.classList.remove('selected'); // 既存の選択を解除
+          }
           selectedOption = optionText; // 選択された回答を保存
+          selectedOptionButton = optionButton; // 選択されたボタンを保存
+          selectedOptionButton.classList.add('selected'); // 選択状態を示すクラスを追加
         }
       });
       optionsArea.appendChild(optionButton);

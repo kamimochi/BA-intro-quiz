@@ -1,130 +1,136 @@
 body {
-    font-family: sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #f0f0f0;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f0f0;
 }
 
 h1 {
-    margin-bottom: 20px;
-    color: #333;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 #difficultySelectArea {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 #difficultySelectArea button {
-    padding: 10px 15px;
-    font-size: 1em;
-    margin-right: 10px;
-    cursor: pointer;
-    background-color: #f8f9fa;
-    color: #343a40;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 1em;
+  margin-right: 10px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  color: #343a40;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
 }
 
 #difficultySelectArea button:hover {
-    background-color: #e9ecef;
+  background-color: #e9ecef;
 }
 
 #questionNumberSelectArea {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #questionNumberSelectArea label {
-    margin-bottom: 5px;
-    font-weight: bold;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 #questionNumberSelectArea input[type="number"] {
-    padding: 8px;
-    width: 80px;
-    text-align: center;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
+  padding: 8px;
+  width: 80px;
+  text-align: center;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
 }
 
 #startButton {
-    padding: 10px 20px;
-    font-size: 1.2em;
-    cursor: pointer;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 20px;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 #startButton:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 #audioPlayer {
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 400px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
 }
 
 #questionArea {
-    margin-bottom: 10px;
-    font-size: 1.2em;
+  margin-bottom: 10px;
+  font-size: 1.2em;
 }
 
 #optionsArea {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 #optionsArea button {
-    padding: 10px 15px;
-    border: 1px solid #007bff;
-    background-color: #fff;
-    color: #007bff;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
+  padding: 10px 15px;
+  border: 1px solid #007bff;
+  background-color: #fff;
+  color: #007bff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
 }
 
 #optionsArea button:hover {
-    background-color: #007bff;
-    color: #fff;
+  background-color: #007bff;
+  color: #fff;
+}
+
+#optionsArea button.selected {
+  background-color: yellow; /* 選択されたボタンの背景色を変更（例） */
+  color: black;
+  border: 2px solid orange;
 }
 
 #nextButton {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.1em;
-    margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1em;
+  margin-bottom: 20px;
 }
 
 #nextButton:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 #resultArea {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-top: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
 #questionArea, #optionsArea, #nextButton, #resultArea {
-    display: none; /* 初期状態では非表示 */
+  display: none; /* 初期状態では非表示 */
 }

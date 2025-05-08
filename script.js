@@ -171,6 +171,21 @@ startButton.addEventListener('click', () => {
     alert('問題数は5から45の間で入力してください。');
     return;
   }
+  // 修正箇所：nextButtonのイベントリスナーを設定
+nextButton.addEventListener('click', () => {
+  if (!answered) {
+    // 回答処理
+    if (selectedOption) {
+      checkAnswer(selectedOption);
+    } else {
+      alert("回答を選択してください。");
+    }
+  } else {
+    // 次の問題に進む処理
+    currentQuestionIndex++;
+    loadQuestion();
+  }
+});
   numberOfQuestions = selectedQuestionNumber;
 
   startButton.style.display = 'none';

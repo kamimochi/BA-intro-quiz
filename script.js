@@ -264,30 +264,3 @@ function playHint() {
   }
 }
 
-function checkAnswer(selectedAnswer) {
-  if (!canAnswer || answered) return; // 回答済みなら何もしない
-
-  canAnswer = false;
-  answered = true;
-  audioPlayer.pause();
-  if (currentQuestion && currentQuestion.answer) {
-    const correctAnswer = currentQuestion.answer;
-    if (selectedAnswer === correctAnswer) {
-      resultArea.textContent = '正解！'; // 正解の場合の表示
-      score++;
-    } else {
-      resultArea.textContent = `不正解... 正解は「${fullToShortOptions[correctAnswer] || correctAnswer}」です。`; // 不正解の場合の表示
-    }
-    nextButton.textContent = '次の問題'; // 回答後にボタンのテキストを変更
-    nextButton.disabled = false;
-    hintButton.disabled = true; // 回答後はヒントボタンを無効化
-  }
-}
-
-nextButton.addEventListener('click', () => {
-  if (answered || currentQuestionIndex === currentQuestions.length) {
-    nextButton.textContent = '次の問題'; // 次の問題へ進む際にテキストを変更
-    currentQuestionIndex++;
-    loadQuestion();
-  }
-});

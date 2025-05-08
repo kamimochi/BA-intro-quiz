@@ -144,7 +144,7 @@ let canAnswer = false;
 let playDuration = 1; // 問題の再生時間 (1秒)
 let hintDuration = 2; // ヒントの再生時間 (2秒)
 let numberOfQuestions = 10;
-let hintPlayed = false; // 最初のヒント再生判定フラグ
+let hintPlayed = false;
 let answered = false; // 回答済みフラグ
 
 const audioPlayer = document.getElementById('audioPlayer');
@@ -180,6 +180,7 @@ startButton.addEventListener('click', () => {
   currentQuestions = shuffledQuestions.slice(0, numberOfQuestions);
   document.getElementById('questionArea').style.display = 'block';
   document.getElementById('optionsArea').style.display = 'grid';
+  nextButton.textContent = '回答'; // 初期表示を「回答」にする
   nextButton.style.display = 'block';
   resultArea.textContent = '';
   loadQuestion();
@@ -189,13 +190,14 @@ function loadQuestion() {
   answered = false; // 新しい問題で未回答状態に戻す
   hintPlayed = false; // 新しい問題でヒント未再生状態に戻す
   hintButton.disabled = false; // 新しい問題でヒントボタンを有効にする
+  nextButton.textContent = '回答'; // 問題読み込み時も「回答」にする
+  nextButton.disabled = true; // 回答前はボタンを無効にする
   if (currentQuestionIndex < currentQuestions.length) {
     currentQuestion = currentQuestions[currentQuestionIndex];
     questionNumberDisplay.textContent = currentQuestionIndex + 1;
     totalQuestionsDisplay.textContent = currentQuestions.length;
     optionsArea.innerHTML = '';
     resultArea.textContent = '';
-    nextButton.disabled = true;
     canAnswer = false;
 
     // 正解を含む選択肢をランダムに作成
@@ -210,7 +212,11 @@ function loadQuestion() {
     options.forEach(optionText => {
       const optionButton = document.createElement('button');
       optionButton.textContent = fullToShortOptions[optionText] || optionText; // 略称を使用
-      optionButton.addEventListener('click', () => checkAnswer(optionText));
+      optionButton.addEventListener('click', () => {
+        if (!answered && canAnswer) {
+          checkAnswer(optionText);
+        }
+      });
       optionsArea.appendChild(optionButton);
     });
 
@@ -223,11 +229,13 @@ function loadQuestion() {
     audioPlayer.src = 'bgm/' + currentQuestion.mainSound;
     audioPlayer.play();
     canAnswer = true; // 問題再生直後に回答可能にする
+    nextButton.disabled = false; // 回答可能になったらボタンを有効にする
 
     // タイムアウト処理 (問題再生時間 + 猶予)
     setTimeout(() => {
-      if (!canAnswer && !answered) { // 回答済みでない場合のみタイムアウト処理
+      if (!answered) { // 回答済みでない場合のみタイムアウト処理
         resultArea.textContent = `時間切れ！正解は「${fullToShortOptions[currentQuestion.answer] || currentQuestion.answer}」です。`;
+        nextButton.textContent = '次の問題';
         nextButton.disabled = false;
         hintButton.disabled = true;
         answered = true; // タイムアウトも回答とみなす
@@ -267,12 +275,15 @@ function checkAnswer(selectedAnswer) {
     } else {
       resultArea.textContent = `不正解... 正解は「${fullToShortOptions[correctAnswer] || correctAnswer}」です。`;
     }
+    nextButton.textContent = '次の問題'; // 回答後にボタンのテキストを変更
+    nextButton.disabled = false;
+    hintButton.disabled = true; // 回答後はヒントボタンを無効化
   }
-  nextButton.disabled = false;
-  hintButton.disabled = true; // 回答後はヒントボタンを無効化
 }
 
 nextButton.addEventListener('click', () => {
-  currentQuestionIndex++;
-  loadQuestion();
+  if (answered || currentQuestionIndex === currentQuestions.length) {
+    currentQuestionIndex++;
+    loadQuestion();
+  }
 });

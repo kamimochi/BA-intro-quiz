@@ -134,3 +134,38 @@ h1 {
 #questionArea, #optionsArea, #nextButton, #resultArea {
   display: none; /* 初期状態では非表示 */
 }
+/* style.css に追加 */
+
+/* 正解・不正解のフィードバックメッセージのスタイル */
+.feedback {
+    margin-top: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.feedback.correct {
+    color: #28a745; /* 緑色 */
+}
+
+.feedback.incorrect {
+    color: #dc3545; /* 赤色 */
+}
+
+/* 選択肢ボタンの正解・不正解スタイル */
+.choice-btn.correct {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.choice-btn.incorrect {
+    background-color: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+/* 無効化されたボタンのスタイル */
+.choice-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}

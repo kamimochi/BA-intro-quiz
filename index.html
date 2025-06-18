@@ -4,29 +4,31 @@
   <title>BlueArchive BGM Quiz</title>
   <link rel="stylesheet" href="style.css">
 </head>
+<!-- index.html -->
 <body>
-  <audio id="audioPlayer" controls style="width: 100%;"></audio>
-  <div id="questionArea" style="display: none;">
-    <p>問題 <span id="questionNumber"></span> / <span id="totalQuestions"></span></p>
-  </div>
-  <div id="optionsArea" style="display: none;"></div>
-  <button id="nextButton" style="display: none;">次の問題</button>
-  <div id="resultArea"></div>
-  <div id="difficultySelectArea">
-    <label for="difficulty">難易度を選択:</label>
-    <select id="difficulty">
-      <option value="easy">イージー</option>
-      <option value="normal">ノーマル</option>
-      <option value="hard">ハード</option>
-    </select>
-    <button id="startQuiz">スタート</button>
-  </div>
-  <div id="questionNumberSelectArea" style="display: none; flex-direction: column; align-items: center;">
-    <label for="questionNumberInput">問題数 (5～45):</label>
-    <input type="number" id="questionNumberInput" min="5" max="45" value="10">
-    <button id="startButton">スタート</button>
-  </div>
-  <script src="optionsData.js"></script>
-  <script src="script.js"></script>
+    <div class="container">
+        <div id="quiz-header">
+            <h1>ブルアカイベBGMイントロクイズ</h1>
+        </div>
+
+        <div id="question-container" class="hide">
+            <div id="choices" class="btn-grid">
+                <!-- 選択肢ボタンがここに生成される -->
+            </div>
+            <!-- ↓↓↓ このヒントボタンを追加 ↓↓↓ -->
+            <button id="hint-btn" class="btn hint-btn hide">ヒントを聴く</button>
+            <div id="feedback" class="feedback hide"></div>
+        </div>
+
+        <div id="result-container" class="hide">
+            <h2>結果</h2>
+            <p id="score"></p>
+        </div>
+
+        <div class="controls">
+            <button id="start-btn" class="start-btn btn">クイズ開始</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -169,3 +169,19 @@ h1 {
     cursor: not-allowed;
     opacity: 0.7;
 }
+
+
+/* style.css の末尾に追記 */
+
+/* ヒントボタンのスタイル */
+.hint-btn {
+    background-color: #ffc107; /* 黄色系の色 */
+    border-color: #ffc107;
+    margin-top: 15px; /* 上の選択肢との間隔 */
+}
+
+/* 無効化されたヒントボタン */
+.hint-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

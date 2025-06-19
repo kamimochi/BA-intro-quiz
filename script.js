@@ -1,5 +1,3 @@
-// script.js
-
 // === DOM要素の取得 ===
 const startButton = document.getElementById('start-btn');
 const hintButton = document.getElementById('hint-btn');
@@ -9,39 +7,68 @@ const choicesElement = document.getElementById('choices');
 const feedbackElement = document.getElementById('feedback');
 const scoreElement = document.getElementById('score');
 
+// === 楽曲データ ===
+// 提供されたリストをここに直接記述します
+const allQuestions = [
+  { mainSound: 'event_01_main.mp3', hintSound: 'event_01_hint.mp3', answer: '桜花爛漫お祭り騒ぎ！~空に徒花 地に忍び~' },
+  { mainSound: 'event_02_main.mp3', hintSound: 'event_02_hint.mp3', answer: '革命のイワン・クパーラ 髭とプリンとレッドウィンター' },
+  { mainSound: 'event_03_main.mp3', hintSound: 'event_03_hint.mp3', answer: '夏空のウィッシュリスト' },
+  { mainSound: 'event_04_main.mp3', hintSound: 'event_04_hint.mp3', answer: '~風紀委員会行政官緊急特務命令~ヒナ委員長のなつやすみっ！' },
+  { mainSound: 'event_05_main.mp3', hintSound: 'event_05_hint.mp3', answer: 'ネバーランドでつかまえて' },
+  { mainSound: 'event_06_main.mp3', hintSound: 'event_06_hint.mp3', answer: '船上のバニーチェイサー' },
+  { mainSound: 'event_08_main.mp3', hintSound: 'event_08_hint.mp3', answer: '227号温泉郷の運営記録！白い吐息は寄り添って' },
+  { mainSound: 'event_09_main.mp3', hintSound: 'event_09_hint.mp3', answer: '第68番 新春狂想曲' },
+  { mainSound: 'event_10_1_main.mp3', hintSound: 'event_10_1_hint.mp3', answer: 'シャーレのハッピー♡バレンタインパトロール' },
+  { mainSound: 'event_10_2_main.mp3', hintSound: 'event_10_2_hint.mp3', answer: '狐坂ワカモの沈黙と祝宴' },
+  { mainSound: 'event_11_main.mp3', hintSound: 'event_11_hint.mp3', answer: 'どたばたシスターと古書館の魔術師' },
+  { mainSound: 'event_12_main.mp3', hintSound: 'event_12_hint.mp3', answer: '不忍ノ心' },
+  { mainSound: 'event_13_main.mp3', hintSound: 'event_13_hint.mp3', answer: 'アビドスリゾート復旧対策委員会' },
+  { mainSound: 'event_14_main.mp3', hintSound: 'event_14_hint.mp3', answer: '出張！百夜堂 海の家FC計画' },
+  { mainSound: 'event_15_main.mp3', hintSound: 'event_15_hint.mp3', answer: '放課後スイーツ物語 甘い秘密と銃撃戦' },
+  { mainSound: 'event_16_main.mp3', hintSound: 'event_16_hint.mp3', answer: 'On Your Mark ＠ Millennium ~ キヴォトス大運動会 晄輪大祭' },
+  { mainSound: 'event_17_main.mp3', hintSound: 'event_17_hint.mp3', answer: 'GetSet,GO！～キヴォトス晄輪大祭～' },
+  { mainSound: 'event_18_main.mp3', hintSound: 'event_18_hint.mp3', answer: '聖堂のメリークリスマス〜救護騎士団の贈り物〜' },
+  { mainSound: 'event_19_main.mp3', hintSound: 'event_19_hint.mp3', answer: '喰積の 前にいささか ～一番勝負～' },
+  { mainSound: 'event_20_main.mp3', hintSound: 'event_20_hint.mp3', answer: 'F.SCT攻略戦' },
+  { mainSound: 'event_21_main.mp3', hintSound: 'event_21_hint.mp3', answer: 'A-H.A占領戦' },
+  { mainSound: 'event_22_main.mp3', hintSound: 'event_22_hint.mp3', answer: 'PHT決戦' },
+  { mainSound: 'event_23_main.mp3', hintSound: 'event_23_hint.mp3', answer: 'D.U.シラトリ区 復旧作業' },
+  { mainSound: 'event_24_main.mp3', hintSound: 'event_24_hint.mp3', answer: '白亜の予告状～虚飾の館と美学の在り処～' },
+  { mainSound: 'event_25_main.mp3', hintSound: 'event_25_hint.mp3', answer: '龍武同舟 ～思い描くは、ひとつの未来～' },
+  { mainSound: 'event_26_main.mp3', hintSound: 'event_26_hint.mp3', answer: '夏の特殊作戦！RABBIT小隊と消えたエビの謎' },
+  { mainSound: 'event_27_main.mp3', hintSound: 'event_27_hint.mp3', answer: '隠されし遺産を求めて〜トリニティの課外活動〜' },
+  { mainSound: 'event_28_main.mp3', hintSound: 'event_28_hint.mp3', answer: '学漫同人物語 ～2人が求める最終回～' },
+  { mainSound: 'event_29_main.mp3', hintSound: 'event_29_hint.mp3', answer: 'Trip Trap Train' },
+  { mainSound: 'event_31_main.mp3', hintSound: 'event_31_hint.mp3', answer: '(電脳)新春行進曲' },
+  { mainSound: 'event_32_main.mp3', hintSound: 'event_32_hint.mp3', answer: '陽ひらく彼女たちの小夜曲' },
+  { mainSound: 'event_33_main.mp3', hintSound: 'event_33_hint.mp3', answer: '0068 オペラより愛をこめて！' },
+  { mainSound: 'event_34_main.mp3', hintSound: 'event_34_hint.mp3', answer: 'にぎにぎと ゆきゆきて' },
+  { mainSound: 'event_35_main.mp3', hintSound: 'event_35_hint.mp3', answer: '-ive aLIVE!' },
+  { mainSound: 'event_36_main.mp3', hintSound: 'event_36_hint.mp3', answer: 'Say-Bing!' },
+  { mainSound: 'event_37_main.mp3', hintSound: 'event_37_hint.mp3', answer: 'Sheside Outside' },
+  { mainSound: 'event_38_main.mp3', hintSound: 'event_38_hint.mp3', answer: '月華夢騒' },
+  { mainSound: 'event_39_main.mp3', hintSound: 'event_39_hint.mp3', answer: '五塵来降' },
+  { mainSound: 'event_40_main.mp3', hintSound: 'event_40_hint.mp3', answer: 'Serenade Promenade' },
+  { mainSound: 'event_41_main.mp3', hintSound: 'event_41_hint.mp3', answer: '秘密のミッドナイトパーティー～オニの手は鐘と共に～' },
+  { mainSound: 'event_42_main.mp3', hintSound: 'event_42_hint.mp3', answer: 'Code: BOX ミレニアムに迫る影 ～一つの問いと二つの答え～' },
+  { mainSound: 'event_43_main.mp3', hintSound: 'event_43_hint.mp3', answer: 'パンデミック・ハザード ～奇跡の一枚～' },
+  { mainSound: 'event_44_main.mp3', hintSound: 'event_44_hint.mp3', answer: 'プレイボール！～目指せ！満塁ホームラン～' },
+  { mainSound: 'event_45_main.mp3', hintSound: 'event_45_hint.mp3', answer: 'ハイランダー鉄道爆走事件〜そして列車はなくなった〜' }
+];
+
 // === グローバル変数 ===
-const totalTracks = 43; // 楽曲の総数 (1から43まで)
-let musicList = []; // 全楽曲のリスト
-let shuffledQuestions = []; // シャッフルされた問題リスト
+let shuffledQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let mainAudio = null;
 let hintAudio = null;
 
-
-// === 楽曲リストの自動生成 ===
-// ページ読み込み時に一度だけリストを作成
-(function createMusicList() {
-    for (let i = 1; i <= totalTracks; i++) {
-        // "1" -> "01", "10" -> "10" のように2桁の数字にフォーマット
-        const trackNumber = String(i).padStart(2, '0'); 
-        musicList.push({
-            mainFile: `event_${trackNumber}_main.mp3`,
-            hintFile: `event_${trackNumber}_hint.mp3`,
-            title: `Event ${trackNumber}` // 正解の表示名
-        });
-    }
-})();
-
-
 // === イベントリスナー ===
 startButton.addEventListener('click', startQuiz);
 hintButton.addEventListener('click', playHint);
 
-
 // === クイズ処理 ===
 
-// クイズ開始
 function startQuiz() {
     startButton.classList.add('hide');
     resultContainer.classList.add('hide');
@@ -50,34 +77,32 @@ function startQuiz() {
     currentQuestionIndex = 0;
     score = 0;
 
-    // 元のリストのコピーを作ってからシャッフルする
-    shuffledQuestions = [...musicList];
+    // 問題リストをシャッフル
+    shuffledQuestions = [...allQuestions];
     shuffleArray(shuffledQuestions);
     
     showQuestion();
 }
 
-// 問題を表示
 function showQuestion() {
-    resetState(); // 前の問題の状態をリセット
+    resetState();
 
     if (currentQuestionIndex < shuffledQuestions.length) {
         const currentQuestion = shuffledQuestions[currentQuestionIndex];
 
-        // メインBGMを再生
-        mainAudio = new Audio('music/' + currentQuestion.mainFile);
+        // メインBGMを再生 (プロパティ名を mainSound に変更)
+        mainAudio = new Audio('music/' + currentQuestion.mainSound);
         mainAudio.play().catch(error => {
-            console.error("メインBGMの再生に失敗しました:", error);
-            feedbackElement.textContent = "音楽ファイルの読み込みに失敗しました。";
+            console.error("メインBGMの再生に失敗:", currentQuestion.mainSound, error);
+            feedbackElement.textContent = `音楽ファイル(${currentQuestion.mainSound})の読込に失敗`;
             feedbackElement.classList.remove('hide');
         });
 
-        // ヒントボタンを表示して有効化
         hintButton.classList.remove('hide');
         hintButton.disabled = false;
 
-        // 選択肢を生成して表示
-        const choices = generateChoices(currentQuestion.title);
+        // 選択肢を生成 (プロパティ名を answer に変更)
+        const choices = generateChoices(currentQuestion.answer);
         choices.forEach(choice => {
             const button = document.createElement('button');
             button.innerText = choice;
@@ -90,42 +115,32 @@ function showQuestion() {
     }
 }
 
-// ヒントBGMを再生
 function playHint() {
-    if (mainAudio) {
-        mainAudio.pause(); // メインBGMを停止
-    }
-    if (hintAudio) {
-        hintAudio.pause(); // 念のため前のヒントを停止
-    }
+    if (mainAudio) mainAudio.pause();
+    if (hintAudio) hintAudio.pause();
 
     const currentQuestion = shuffledQuestions[currentQuestionIndex];
-    hintAudio = new Audio('music/' + currentQuestion.hintFile);
+    // ヒントBGMを再生 (プロパティ名を hintSound に変更)
+    hintAudio = new Audio('music/' + currentQuestion.hintSound);
     hintAudio.play().catch(error => {
-         console.error("ヒントBGMの再生に失敗しました:", error);
+         console.error("ヒントBGMの再生に失敗:", currentQuestion.hintSound, error);
     });
 
-    hintButton.disabled = true; // ヒントは1問につき1回まで
+    hintButton.disabled = true;
 }
 
-
-// 回答を選択したときの処理
 function selectAnswer(e) {
-    // すぐに全てのボタンを無効化する
-    Array.from(choicesElement.children).forEach(button => {
-        button.disabled = true;
-    });
+    Array.from(choicesElement.children).forEach(button => { button.disabled = true; });
     hintButton.disabled = true;
 
-    // 再生中のBGMをすべて停止
     if (mainAudio) mainAudio.pause();
     if (hintAudio) hintAudio.pause();
 
     const selectedBtn = e.target;
     const selectedAnswer = selectedBtn.innerText;
-    const correctAnswer = shuffledQuestions[currentQuestionIndex].title;
+    // 正解のプロパティ名を answer に変更
+    const correctAnswer = shuffledQuestions[currentQuestionIndex].answer;
 
-    // 正誤判定とフィードバック表示
     if (selectedAnswer === correctAnswer) {
         score++;
         feedbackElement.textContent = '正解！';
@@ -135,7 +150,6 @@ function selectAnswer(e) {
         feedbackElement.textContent = `残念！正解は「${correctAnswer}」でした。`;
         feedbackElement.className = 'feedback incorrect';
         selectedBtn.classList.add('incorrect');
-        // 不正解のときに正解ボタンをハイライト
         Array.from(choicesElement.children).forEach(button => {
             if (button.innerText === correctAnswer) {
                 button.classList.add('correct');
@@ -144,12 +158,10 @@ function selectAnswer(e) {
     }
     feedbackElement.classList.remove('hide');
 
-    // 次の問題へ
     currentQuestionIndex++;
-    setTimeout(showQuestion, 2500); // 2.5秒後に次の問題へ
+    setTimeout(showQuestion, 3000); // 結果表示を少し長めに
 }
 
-// 結果表示
 function showResult() {
     questionContainer.classList.add('hide');
     resultContainer.classList.remove('hide');
@@ -158,12 +170,9 @@ function showResult() {
     startButton.classList.remove('hide');
 }
 
-
 // === ヘルパー関数 ===
 
-// 状態をリセットする（次の問題に移る前に呼ばれる）
 function resetState() {
-    // 再生中の音を止める
     if (mainAudio) mainAudio.pause();
     if (hintAudio) hintAudio.pause();
     
@@ -175,24 +184,21 @@ function resetState() {
     }
 }
 
-// 選択肢を生成する（正解1つ＋不正解3つ）
-function generateChoices(correctAnswerTitle) {
-    const choices = [correctAnswerTitle];
-    const wrongAnswers = musicList
-        .filter(music => music.title !== correctAnswerTitle)
-        .map(music => music.title);
+function generateChoices(correctAnswer) {
+    const choices = [correctAnswer];
+    // 不正解の選択肢を作る (プロパティ名を answer に変更)
+    const wrongAnswers = allQuestions
+        .filter(q => q.answer !== correctAnswer)
+        .map(q => q.answer);
 
     shuffleArray(wrongAnswers);
-
     for (let i = 0; i < 3 && i < wrongAnswers.length; i++) {
         choices.push(wrongAnswers[i]);
     }
-
     shuffleArray(choices);
     return choices;
 }
 
-// 配列をシャッフルする（Fisher-Yatesアルゴリズム）
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));

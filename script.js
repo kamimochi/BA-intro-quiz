@@ -1,3 +1,5 @@
+// script.js
+
 // === DOM要素の取得 ===
 const startButton = document.getElementById('start-btn');
 const hintButton = document.getElementById('hint-btn');
@@ -6,9 +8,9 @@ const resultContainer = document.getElementById('result-container');
 const choicesElement = document.getElementById('choices');
 const feedbackElement = document.getElementById('feedback');
 const scoreElement = document.getElementById('score');
+const questionProgressElement = document.getElementById('question-progress'); // 問題番号表示用の要素を取得
 
-// === 楽曲データ ===
-// 提供されたリストをここに直接記述します
+// (楽曲データ allQuestions はそのままなので省略)
 const allQuestions = [
   { mainSound: 'event_01_main.mp3', hintSound: 'event_01_hint.mp3', answer: '桜花爛漫お祭り騒ぎ！~空に徒花 地に忍び~' },
   { mainSound: 'event_02_main.mp3', hintSound: 'event_02_hint.mp3', answer: '革命のイワン・クパーラ 髭とプリンとレッドウィンター' },
@@ -56,6 +58,8 @@ const allQuestions = [
   { mainSound: 'event_45_main.mp3', hintSound: 'event_45_hint.mp3', answer: 'ハイランダー鉄道爆走事件〜そして列車はなくなった〜' }
 ];
 
+
+
 // === グローバル変数 ===
 let shuffledQuestions = [];
 let currentQuestionIndex = 0;
@@ -70,14 +74,15 @@ hintButton.addEventListener('click', playHint);
 // === クイズ処理 ===
 
 function startQuiz() {
+    // ★要望2: 開始ボタンを非表示にする
     startButton.classList.add('hide');
+    
     resultContainer.classList.add('hide');
     questionContainer.classList.remove('hide');
     
     currentQuestionIndex = 0;
     score = 0;
 
-    // 問題リストをシャッフル
     shuffledQuestions = [...allQuestions];
     shuffleArray(shuffledQuestions);
     
@@ -88,9 +93,11 @@ function showQuestion() {
     resetState();
 
     if (currentQuestionIndex < shuffledQuestions.length) {
+        // ★要望3: 現在の問題番号を表示する
+        questionProgressElement.textContent = `${currentQuestionIndex + 1} / ${shuffledQuestions.length} 問目`;
+
         const currentQuestion = shuffledQuestions[currentQuestionIndex];
 
-        // メインBGMを再生 (プロパティ名を mainSound に変更)
         mainAudio = new Audio('music/' + currentQuestion.mainSound);
         mainAudio.play().catch(error => {
             console.error("メインBGMの再生に失敗:", currentQuestion.mainSound, error);
@@ -101,26 +108,26 @@ function showQuestion() {
         hintButton.classList.remove('hide');
         hintButton.disabled = false;
 
-        // 選択肢を生成 (プロパティ名を answer に変更)
         const choices = generateChoices(currentQuestion.answer);
         choices.forEach(choice => {
             const button = document.createElement('button');
             button.innerText = choice;
             button.classList.add('choice-btn');
+            choicesElement.appendChild(button); // #choices に直接追加
             button.addEventListener('click', selectAnswer);
-            choicesElement.appendChild(button);
         });
     } else {
         showResult();
     }
 }
 
+// (playHint, selectAnswer 関数は変更なしなので省略)
+
 function playHint() {
     if (mainAudio) mainAudio.pause();
     if (hintAudio) hintAudio.pause();
 
     const currentQuestion = shuffledQuestions[currentQuestionIndex];
-    // ヒントBGMを再生 (プロパティ名を hintSound に変更)
     hintAudio = new Audio('music/' + currentQuestion.hintSound);
     hintAudio.play().catch(error => {
          console.error("ヒントBGMの再生に失敗:", currentQuestion.hintSound, error);
@@ -138,7 +145,6 @@ function selectAnswer(e) {
 
     const selectedBtn = e.target;
     const selectedAnswer = selectedBtn.innerText;
-    // 正解のプロパティ名を answer に変更
     const correctAnswer = shuffledQuestions[currentQuestionIndex].answer;
 
     if (selectedAnswer === correctAnswer) {
@@ -159,18 +165,21 @@ function selectAnswer(e) {
     feedbackElement.classList.remove('hide');
 
     currentQuestionIndex++;
-    setTimeout(showQuestion, 3000); // 結果表示を少し長めに
+    setTimeout(showQuestion, 3000);
 }
+
 
 function showResult() {
     questionContainer.classList.add('hide');
     resultContainer.classList.remove('hide');
     scoreElement.textContent = `${shuffledQuestions.length}問中 ${score}問 正解！`;
+    
+    // 結果画面で「もう一度挑戦する」ボタンとして再表示する
     startButton.innerText = 'もう一度挑戦する';
     startButton.classList.remove('hide');
 }
 
-// === ヘルパー関数 ===
+// (ヘルパー関数 resetState, generateChoices, shuffleArray は変更なしなので省略)
 
 function resetState() {
     if (mainAudio) mainAudio.pause();
@@ -186,7 +195,6 @@ function resetState() {
 
 function generateChoices(correctAnswer) {
     const choices = [correctAnswer];
-    // 不正解の選択肢を作る (プロパティ名を answer に変更)
     const wrongAnswers = allQuestions
         .filter(q => q.answer !== correctAnswer)
         .map(q => q.answer);
